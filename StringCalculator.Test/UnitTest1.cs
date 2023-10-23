@@ -7,10 +7,12 @@ namespace StringCalculator.Test
     public class StringCalculatorShould{
 
         StringCalculatorClass calculator;
+        HistoryHandler historyHandler;
 
         [SetUp]
         public void Setup() {
             calculator = new StringCalculatorClass();
+            historyHandler = new HistoryHandler();
         }
 
         [Test]
@@ -83,6 +85,16 @@ namespace StringCalculator.Test
             int res = calculator.add("100000,2");
 
             res.Should().Be(2);
+        }
+
+        [Test]
+        public void save_in_history()
+        {
+            var now = DateTime.Now;
+            var request = "Test request on " + now;
+            historyHandler.handle(request);
+            var res = historyHandler.getRequest(request);
+            res.Should().Be(request); 
         }
     }
 }
