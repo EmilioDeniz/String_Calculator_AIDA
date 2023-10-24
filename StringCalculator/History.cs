@@ -11,9 +11,10 @@ namespace StringCalculator
         internal void saveHistory(string request)
         {
             initFile();
-            StreamWriter writer = new StreamWriter(path);
-            writer.Write(request);  
-            writer.Close();
+            using (StreamWriter writer = new StreamWriter(path))
+            {
+                writer.Write(request);  
+            }
         }
 
         //Podría ser útil, pero no creo que sea necesario para lo que se nos pide inicialmente
