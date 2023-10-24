@@ -11,9 +11,9 @@ namespace StringCalculator
         internal void saveHistory(string request)
         {
             initFile();
-            using (StreamWriter writer = new StreamWriter(path))
+            using (StreamWriter writer = new StreamWriter(path,true))
             {
-                writer.Write(request);  
+                writer.Write(request+"\n");  
             }
         }
 

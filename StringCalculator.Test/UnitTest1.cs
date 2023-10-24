@@ -96,5 +96,25 @@ namespace StringCalculator.Test
             var res = historyHandler.getRequest(request);
             res.Should().Be(request); 
         }
+
+        [Test]
+
+        public void save_multiple_entrys_in_history()
+        {
+            var time_First = DateTime.Now;
+            var request_First = "Test request on " + time_First;
+
+            var time_Second = DateTime.Now;
+            var request_Second = "Test reques on"+ time_Second;
+
+            historyHandler.handle(request_First);
+            historyHandler.handle(request_Second);
+
+            var res_First = historyHandler.getRequest(request_First);
+            var res_Second = historyHandler.getRequest(request_Second);
+
+            res_First.Should().Be(request_First);
+            res_Second.Should().Be(request_Second);
+        }
     }
 }

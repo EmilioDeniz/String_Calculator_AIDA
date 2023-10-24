@@ -17,7 +17,7 @@ namespace StringCalculatorAPI.Controllers
         {
             DateTime now = DateTime.Now;
             var res= calculator.add(sum).ToString();
-            historyHandler.handle("Request done at "+now+" with the numbers "+sum+ "with result "+res);
+            historyHandler.handle("Request done at "+now+" with the numbers "+sum+ " with result "+res);
             return res; 
         }
 
