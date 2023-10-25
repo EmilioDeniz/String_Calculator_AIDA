@@ -91,7 +91,7 @@ namespace StringCalculator.Test
         public void save_in_history()
         {
             var now = DateTime.Now;
-            var request = "Test request on " + now;
+            var request = now + "-" + "1,3,5-9";
             historyHandler.handle(request);
             var res = historyHandler.getRequest(request);
             res.Should().Be(request); 
@@ -102,10 +102,10 @@ namespace StringCalculator.Test
         public void save_multiple_entrys_in_history()
         {
             var time_First = DateTime.Now;
-            var request_First = "Test request on " + time_First;
+            var request_First = time_First + "-" + "1,3,5-9";
 
             var time_Second = DateTime.Now;
-            var request_Second = "Test reques on"+ time_Second;
+            var request_Second = time_Second + "-" + "1,3,5-9";
 
             historyHandler.handle(request_First);
             historyHandler.handle(request_Second);

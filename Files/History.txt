@@ -1,1 +1,5 @@
-Request done at 24/10/2023 11:10:42 with the numbers 10,20,25with result 55
+Request done at 24/10/2023 11:27:14 with the numbers 1,2,3 with result 6
+Request done at 24/10/2023 11:27:21 with the numbers 4,5,6 with result 15
+Request done at 24/10/2023 11:29:04 with the numbers 4,5,6 with result 15
+25/10/2023-8:38:58-2,2,2-6
+25/10/2023 8:40:19-7,3-10
