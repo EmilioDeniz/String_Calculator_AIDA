@@ -4,24 +4,21 @@ using System.Linq;
 
 namespace StringCalculator {
 
-    class Program{
-        static void Main(string[] args){
-            Console.WriteLine("Hello World, hello repo!!");
-            var calc = new StringCalculatorClass();
-            calc.add("1,-2,-3");
-        }
+    public static class Program
+    {
+        public static void Main(string[] args) { }
     }
 
-    public class StringCalculatorClass {
+    public static class StringCalculatorClass {
 
-        public int add(string argsGiven){
+        public static int add(string argsGiven){
             if (string.IsNullOrEmpty(argsGiven)) { return 0; }
             IEnumerable<int> numbers = TransformInput(argsGiven);
             CheckNegativeNumbers(numbers);
             return numbers.Where(number => number <= 1000).Sum();
         }
 
-        private IEnumerable<int> TransformInput(string argsGiven){
+        private static IEnumerable<int> TransformInput(string argsGiven){
 
             var delimiter = ",";
 
@@ -37,7 +34,7 @@ namespace StringCalculator {
             return nums;
         }
 
-        private void CheckNegativeNumbers(IEnumerable<int> numbers) {
+        private static void CheckNegativeNumbers(IEnumerable<int> numbers) {
             var negatives = numbers.Where(number => number < 0);
             if (negatives.Count() > 0) {
                 throw new Exception("Negatives not allowed: " + string.Join(" ", negatives));

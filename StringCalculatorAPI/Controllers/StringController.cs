@@ -9,16 +9,14 @@ namespace StringCalculatorAPI.Controllers
     public class StringController : ControllerBase
     {
 
-        StringCalculatorClass calculator = new StringCalculatorClass();
-        HistoryHandler historyHandler = new HistoryHandler();
+        HistoryHandler historySaver = new HistoryHandler(new HistoryStorer("../Files/History.txt"));
 
         [HttpGet("{sum}")]
         public string Get(string sum)
         {
-            DateTime now = DateTime.Now;
-            var res= calculator.add(sum).ToString();
-            historyHandler.handle(now+"-"+sum+ "-"+res);
-            return res; 
+            historySaver.setDate(DateTime.Now.ToString());
+            historySaver.Handle(sum);
+            return StringCalculatorClass.add(sum).ToString();
         }
 
     }

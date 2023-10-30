@@ -4,20 +4,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace StringCalculator
 {
     public class HistoryHandler
     {
-        private History history = new History();
+        private Save history;
+        private String date;
 
-        public void handle(string request) {
-            history.saveHistory(request);
+        public HistoryHandler(Save save)
+        {
+            history = save;
         }
 
-        public string getRequest(string id)
-        {
-            var response = history.getRequest(id);
-            return response.ToString();
+        public void Handle(string request) {
+
+            var res = StringCalculatorClass.add(request);
+            history.toFile(this.date+"-"+request+"-"+res);
+        }
+
+        public void setDate(string date) {
+            this.date = date;
         }
     }
 }
