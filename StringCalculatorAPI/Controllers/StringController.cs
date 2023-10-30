@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StringCalculator;
+using StringCalculator.Persistance;
 
 namespace StringCalculatorAPI.Controllers
 {
@@ -9,12 +10,11 @@ namespace StringCalculatorAPI.Controllers
     public class StringController : ControllerBase
     {
 
-        HistoryHandler historySaver = new HistoryHandler(new HistoryStorer("../Files/History.txt"));
+        HistoryHandler historySaver = new HistoryHandler(new HistoryStorer("../Files/History.txt"),new APIDatePicker());
 
         [HttpGet("{sum}")]
         public string Get(string sum)
         {
-            historySaver.setDate(DateTime.Now.ToString());
             historySaver.Handle(sum);
             return StringCalculatorClass.add(sum).ToString();
         }

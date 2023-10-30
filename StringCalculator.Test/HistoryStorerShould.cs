@@ -1,7 +1,9 @@
 ﻿using NUnit.Framework;
 using FluentAssertions;
+using NSubstitute;
 using System;
 using System.IO;
+using StringCalculator.Persistance;
 
 
 namespace StringCalculator.Test
@@ -28,6 +30,14 @@ namespace StringCalculator.Test
 
             var exists = File.Exists("../Files/Test2.txt");
             exists.Should().BeTrue();
+        }
+
+        [Test]
+        public void save_current_date() {
+            var dateTime = Substitute.For<DatePicker>();
+            var handler = new HistoryHandler(new HistoryStorer("./Files/test.txt"), dateTime);
+            handler.Handle("1,3,5");
+            dateTime.Received(1).GetDate();
         }
 
         private string getFromFile(string request,string path)
