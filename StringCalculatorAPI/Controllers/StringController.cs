@@ -9,8 +9,18 @@ namespace StringCalculatorAPI.Controllers
     [ApiController]
     public class StringController : ControllerBase
     {
+        private readonly IConfigurationRoot persistance;
+        private string path;
+        private HistoryHandler historySaver;
 
-        HistoryHandler historySaver = new HistoryHandler(new HistoryStorer("../Files/History.txt"),new APIDatePicker());
+        public StringController()
+        {
+            var persistBuilder = new ConfigurationBuilder();
+            persistBuilder.AddJsonFile("./persistancesettings.json");
+            persistance = persistBuilder.Build();
+            path = persistance["Path"];
+            historySaver = new HistoryHandler(new HistoryStorer(path), new APIDatePicker());
+        }
 
         [HttpGet("{sum}")]
         public string Get(string sum)
