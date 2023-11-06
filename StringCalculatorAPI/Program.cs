@@ -1,3 +1,5 @@
+using StringCalculator;
+using StringCalculator.Persistance;
 using StringCalculatorAPI.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +9,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+var config = builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json",true,false)
+    .AddJsonFile("appsettings.Development.json")
+    .Build();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<DatePicker,APIDatePicker>();
+builder.Services.AddScoped<Save,HistoryStorer>(services => new HistoryStorer(config["Path"]));
+builder.Services.AddScoped<HistoryHandler,HistoryHandler>(services => new HistoryHandler(new HistoryStorer(config["Path"]),services.GetRequiredService<DatePicker>()));
 var app = builder.Build();
 
 
