@@ -7,8 +7,8 @@ namespace StringCalculatorAPI
     public class HistoryHealthCheck : IHealthCheck
     {
         private string path;
-        public HistoryHealthCheck(string path) {
-            this.path = path;
+        public HistoryHealthCheck(IConfiguration config) {
+            this.path = config["Path"];
         }
         public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
         {

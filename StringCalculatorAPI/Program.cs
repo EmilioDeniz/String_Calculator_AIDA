@@ -3,6 +3,7 @@ using StringCalculator;
 using StringCalculator.Persistance;
 using StringCalculatorAPI;
 using StringCalculatorAPI.Controllers;
+using System.IO;
 using System.Runtime.CompilerServices;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,23 +21,33 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<DatePicker,APIDatePicker>();
 builder.Services.AddScoped<Save,HistoryStorer>(services => new HistoryStorer(config["Path"]));
 builder.Services.AddScoped<HistoryHandler,HistoryHandler>(services => new HistoryHandler(new HistoryStorer(config["Path"]),services.GetRequiredService<DatePicker>()));
-builder.Services.AddHealthChecks().AddCheck("HistoryCheck",new HistoryHealthCheck(config["Path"]));
+builder.Services.AddHealthChecks().AddCheck("HistoryCheck",new HistoryHealthCheck(config));
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+var path = config["Path"];
+var folder = Path.GetDirectoryName(path);
+
+if (!Directory.Exists(folder))
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    Directory.CreateDirectory(folder);
+    File.Create(path).Close();
+}
+else
+{
+    if (!File.Exists(path))
+    {
+        File.Create(path).Close();
+    }
 }
 
-app.UseHttpsRedirection();
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapHealthChecks("/health", new HealthCheckOptions
+app.MapHealthChecks("/health.json", new HealthCheckOptions
 {
     ResponseWriter = HistoryHealthCheck.writeJson
 });
