@@ -2,7 +2,6 @@
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
-
 trigger:
 - master
 
@@ -10,10 +9,33 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'restore'
+    projects: 'StringCalculator.sln'
+    feedsToUse: 'select'
+    vstsFeed: '3e709a71-7534-45df-be3f-abd57bd12076'
+    includeNuGetOrg: false
+  displayName: 'Restore Solution'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    projects: './StringCalculator.sln'
+    arguments: '-c Release --no-restore'
+  displayName: 'Build Solution'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'test'
+    projects: './StringCalculator.sln'
+    arguments: '-c Release --no-restore --no-build'
+    publishTestResults: false
+    testRunTitle: 'Running Tests'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    projects: './StringCalculatorAPI/StringCalculatorAPI.csproj'
+    arguments: '-c Release -o out --no-restore --no-build'
