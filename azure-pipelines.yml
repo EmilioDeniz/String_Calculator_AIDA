@@ -14,8 +14,6 @@ steps:
     command: 'restore'
     projects: 'StringCalculator.sln'
     feedsToUse: 'select'
-    vstsFeed: '3e709a71-7534-45df-be3f-abd57bd12076'
-    includeNuGetOrg: false
   displayName: 'Restore Solution'
 
 - task: DotNetCoreCLI@2
